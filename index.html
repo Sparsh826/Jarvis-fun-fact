@@ -1,116 +1,239 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Sparsh</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-html, body {
-    margin: 0;
-    height: 100%;
-    font-family: Arial, sans-serif;
-    background: black;
-    overflow: hidden;
-}
+  :root{
+    --bg: #000;
+    --glass: rgba(0,0,0,0.82);
+    --text: #fff;
+  }
 
-/* Background photo */
-.bg {
-    position: fixed;
-    inset: 0;
-    background: url('me.png') no-repeat center center;
-    background-size: contain; /* FULL IMAGE VISIBLE */
-    background-color: black;
-}
+  *{ box-sizing:border-box; }
+  html,body{ height:100%; margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background: var(--bg); overflow:hidden; }
 
-/* Dark fade */
-.overlay {
-    position: fixed;
-    inset: 0;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.8));
-}
+  /* Full photo visible */
+  .bg{
+    position:fixed; inset:0;
+    background: url("me.png") no-repeat center center;
+    background-size: contain;     /* SHOW FULL IMAGE */
+    background-color: #000;
+  }
 
-/* Hello Button */
-.center-btn {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    padding: 18px 40px;
-    font-size: 26px;
-    border-radius: 40px;
+  /* Slight dark overlay for readability */
+  .shade{
+    position:fixed; inset:0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.15), rgba(0,0,0,0.75));
+    pointer-events:none;
+  }
+
+  /* Bottom bar */
+  .bar{
+    position:fixed;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    z-index: 20;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: rgba(0,0,0,0.75);
+    border: 1px solid rgba(255,255,255,0.22);
+    color: var(--text);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    cursor:pointer;
+    user-select:none;
+  }
+
+  .bar .title{
+    font-size: 16px;
+    font-weight: 650;
+    letter-spacing: 0.2px;
+  }
+
+  .bar .hint{
+    font-size: 14px;
+    opacity: 0.85;
+  }
+
+  /* Slide-up panel */
+  .sheet{
+    position:fixed;
+    left:0; right:0; bottom:0;
+    height: 92vh;                 /* almost full screen */
+    z-index: 30;
+
+    background: var(--glass);
+    color: var(--text);
+    border-top-left-radius: 22px;
+    border-top-right-radius: 22px;
+
+    transform: translateY(100%);
+    transition: transform 0.35s ease;
+    overflow:hidden;
+  }
+
+  .sheet.open{
+    transform: translateY(0);
+  }
+
+  /* handle */
+  .handleWrap{
+    padding: 10px 0 6px;
+    display:flex;
+    justify-content:center;
+  }
+  .handle{
+    width: 44px;
+    height: 5px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.35);
+  }
+
+  /* top row inside sheet */
+  .sheetTop{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 6px 16px 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+  }
+
+  .sheetTop .miniTitle{
+    font-weight: 700;
+    font-size: 14px;
+    opacity: 0.9;
+  }
+
+  .closeBtn{
     border: none;
-    background: white;
-    color: black;
-    cursor: pointer;
-    z-index: 5;
-}
-
-/* Intro Box */
-.intro {
-    position: fixed;
-    bottom: -100%;
-    left: 0;
-    right: 0;
-    background: rgba(0,0,0,0.85);
-    color: white;
-    padding: 30px;
-    max-height: 85%;
-    overflow-y: auto;
-    transition: bottom 0.6s ease;
-    z-index: 10;
-}
-
-.intro.show {
-    bottom: 0;
-}
-
-.intro h1 {
-    margin-top: 0;
-}
-
-a {
+    background: rgba(255,255,255,0.10);
     color: #fff;
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    cursor:pointer;
+  }
+
+  /* content */
+  .content{
+    height: calc(92vh - 70px);
+    overflow-y:auto;
+    padding: 18px 18px 28px;
+  }
+
+  h1{
+    margin: 0 0 10px;
+    font-size: 34px;
+    line-height: 1.1;
+    letter-spacing: -0.4px;
+  }
+
+  p{
+    margin: 0 0 14px;
+    font-size: 16.5px;
+    line-height: 1.65;
+    opacity: 0.92;
+  }
+
+  a{
+    color:#fff;
     text-decoration: underline;
-}
+    font-weight: 650;
+  }
 </style>
 </head>
 
 <body>
+  <div class="bg"></div>
+  <div class="shade"></div>
 
-<div class="bg"></div>
-<div class="overlay"></div>
+  <!-- Bottom bar -->
+  <div class="bar" id="bar" role="button" aria-label="Open intro">
+    <div class="title">Hello there</div>
+    <div class="hint">Tap / swipe up ↑</div>
+  </div>
 
-<button class="center-btn" id="helloBtn" onclick="openIntro()">Hello there</button>
+  <!-- Slide-up sheet -->
+  <section class="sheet" id="sheet" aria-label="Intro panel">
+    <div class="handleWrap"><div class="handle"></div></div>
 
-<div class="intro" id="intro">
-<button onclick="closeIntro()" style="float:right;background:none;border:none;color:white;font-size:26px;">✕</button>
+    <div class="sheetTop">
+      <div class="miniTitle">Intro</div>
+      <button class="closeBtn" id="closeBtn">Close ↓</button>
+    </div>
 
-<h1>Hello there. I'm Sparsh.</h1>
+    <div class="content">
+      <h1>Hello there. <b>I'm Sparsh.</b></h1>
 
-<p>I’ve always had this strong urge to tell stories — even though, honestly, my writing skills are… well, not great. But I’m trying. And that’s what matters.</p>
+      <p>I’ve always had this strong urge to tell stories — even though, honestly, my writing skills are… well, not great. But I’m trying. And that’s what matters.</p>
 
-<p>If you’re reading this, it means you clicked a random link on the internet and somehow landed here — on a website that’s actually live and visible to anyone in the world. Kinda wild, right?</p>
+      <p>If you’re reading this, it means you clicked a random link on the internet and somehow landed here — on a website that’s actually live and visible to anyone in the world. Kinda wild, right?</p>
 
-<p>I come from a commerce background, and I put this whole thing together overnight. No rocket science, just curiosity and a little courage. Still, I’m proud I tried.</p>
+      <p>I come from a commerce background, and I put this whole thing together overnight. No rocket science, just curiosity and a little courage. Still, I’m proud I tried.</p>
 
-<p>So yeah… I’ll be writing things here. Some might be messy. Some might be honest. Some might even be good. I just hope someone out there enjoys them.</p>
+      <p>So yeah… I’ll be writing things here. Some might be messy. Some might be honest. Some might even be good. I just hope someone out there enjoys them.</p>
 
-<p><strong>Let’s go.</strong></p>
+      <p><b>Let’s go.</b></p>
 
-<p><a href="stories.html">Go to my stories →</a></p>
-</div>
+      <p><a href="stories.html">Go to my stories →</a></p>
+    </div>
+  </section>
 
 <script>
-function openIntro(){
-    document.getElementById("intro").classList.add("show");
-    document.getElementById("helloBtn").style.display = "none";
-}
+  const sheet = document.getElementById('sheet');
+  const bar = document.getElementById('bar');
+  const closeBtn = document.getElementById('closeBtn');
 
-function closeIntro(){
-    document.getElementById("intro").classList.remove("show");
-    document.getElementById("helloBtn").style.display = "block";
-}
+  function openSheet(){
+    sheet.classList.add('open');
+    bar.style.display = 'none';
+  }
+
+  function closeSheet(){
+    sheet.classList.remove('open');
+    bar.style.display = 'flex';
+  }
+
+  bar.addEventListener('click', openSheet);
+  closeBtn.addEventListener('click', closeSheet);
+
+  // Swipe up / down (mobile)
+  let startY = null;
+
+  function onTouchStart(e){
+    startY = e.touches[0].clientY;
+  }
+
+  function onTouchEnd(e){
+    if(startY === null) return;
+    const endY = e.changedTouches[0].clientY;
+    const delta = endY - startY;
+
+    // swipe UP: delta negative
+    if(delta < -60 && !sheet.classList.contains('open')){
+      openSheet();
+    }
+
+    // swipe DOWN: delta positive
+    if(delta > 80 && sheet.classList.contains('open')){
+      closeSheet();
+    }
+
+    startY = null;
+  }
+
+  document.addEventListener('touchstart', onTouchStart, {passive:true});
+  document.addEventListener('touchend', onTouchEnd, {passive:true});
 </script>
 
 </body>
