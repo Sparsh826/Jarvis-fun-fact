@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Stories — Sparsh</title>
+  <style>
+    :root{
+      --bg:#0b0d12;
+      --text:#fff;
+      --muted:rgba(255,255,255,.75);
+      --card:rgba(255,255,255,.06);
+      --line:rgba(255,255,255,.12);
+      --radius:16px;
+      --sans: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:var(--sans);background:var(--bg);color:var(--text)}
+    header{
+      position:sticky; top:0;
+      display:flex; justify-content:space-between; align-items:center;
+      padding:16px 18px;
+      border-bottom:1px solid var(--line);
+      background:rgba(11,13,18,.85);
+      backdrop-filter: blur(10px);
+    }
+    .brand{font-weight:900}
+    .menuBtn{
+      width:44px;height:44px;border-radius:12px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.05);
+      color:#fff;font-size:20px;font-weight:900;cursor:pointer;
+    }
+    .wrap{width:min(900px,92vw);margin:24px auto 70px}
+    h1{margin:0 0 10px;font-size:30px}
+    p{color:var(--muted);margin:0 0 18px;line-height:1.8}
+    .list a{
+      display:block;
+      padding:16px;
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      background:var(--card);
+      text-decoration:none;
+      color:#fff;
+      font-weight:900;
+      margin-bottom:12px;
+    }
+    .list a:hover{background:rgba(255,255,255,.09)}
+    .sub{display:block;color:var(--muted);font-weight:700;margin-top:6px}
+
+    /* overlay menu */
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;z-index:60}
+    .overlay.show{display:block}
+    .panel{
+      position:absolute; top:68px; right:16px; width:min(280px,86vw);
+      background:rgba(0,0,0,.7); border:1px solid var(--line);
+      border-radius:16px; padding:10px; backdrop-filter: blur(12px);
+    }
+    .panel a{display:block;padding:12px;border-radius:12px;text-decoration:none;color:#fff;font-weight:800}
+    .panel a:hover{background:rgba(255,255,255,.08)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">Sparsh</div>
+    <button class="menuBtn" id="menuBtn" aria-label="Menu">☰</button>
+  </header>
+
+  <div class="wrap">
+    <h1>My Stories</h1>
+    <p>Pick a chapter.</p>
+
+    <div class="list">
+      <a href="chapter1.html">
+        Chapter 1 — BLABBER SHOW
+        <span class="sub">Talkie Show • Episode One — Value</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay">
+    <div class="panel">
+      <a href="index.html">Home</a>
+      <a href="stories.html">My Stories</a>
+    </div>
+  </div>
+
+  <script>
+    const menuBtn = document.getElementById("menuBtn");
+    const overlay = document.getElementById("overlay");
+    menuBtn.addEventListener("click", () => overlay.classList.toggle("show"));
+    overlay.addEventListener("click", (e) => { if(e.target===overlay) overlay.classList.remove("show"); });
+  </script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chapter 1 — BLABBER SHOW</title>
+  <style>
+    :root{
+      --bg:#0b0d12;
+      --text:#fff;
+      --muted:rgba(255,255,255,.78);
+      --card:rgba(255,255,255,.06);
+      --line:rgba(255,255,255,.12);
+      --radius:16px;
+      --sans: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:var(--sans);background:var(--bg);color:var(--text)}
+    header{
+      position:sticky; top:0;
+      display:flex; justify-content:space-between; align-items:center;
+      padding:16px 18px;
+      border-bottom:1px solid var(--line);
+      background:rgba(11,13,18,.85);
+      backdrop-filter: blur(10px);
+    }
+    .brand{font-weight:900}
+    .menuBtn{
+      width:44px;height:44px;border-radius:12px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.05);
+      color:#fff;font-size:20px;font-weight:900;cursor:pointer;
+    }
+    .wrap{width:min(900px,92vw);margin:24px auto 70px}
+    h1{margin:0 0 10px;font-size:28px}
+    .card{
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      background:var(--card);
+      padding:18px;
+    }
+    .story p{
+      margin:0 0 14px;
+      color:var(--muted);
+      line-height:1.9;
+      font-size:15px;
+    }
+    .story strong{color:#fff}
+
+    /* overlay menu */
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;z-index:60}
+    .overlay.show{display:block}
+    .panel{
+      position:absolute; top:68px; right:16px; width:min(280px,86vw);
+      background:rgba(0,0,0,.7); border:1px solid var(--line);
+      border-radius:16px; padding:10px; backdrop-filter: blur(12px);
+    }
+    .panel a{display:block;padding:12px;border-radius:12px;text-decoration:none;color:#fff;font-weight:800}
+    .panel a:hover{background:rgba(255,255,255,.08)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">Sparsh</div>
+    <button class="menuBtn" id="menuBtn" aria-label="Menu">☰</button>
+  </header>
+
+  <div class="wrap">
+    <h1>Chapter 1 — BLABBER SHOW</h1>
+
+    <div class="card story">
+      <p><strong>TALKIE SHOW</strong><br>
+      Where I blabber… and I splatter 😆 And honestly — samne wala kya soche, it doesn’t matter 😆😆
+      Because here, I only blabber what I’ve actually experienced…</p>
+
+      <p><strong>EPISODE ONE — VALUE</strong><br>
+      Value… bole toh mulya. Par ye hota kya hai? 🤔 And honestly… how deep is this thing called value?
+      Aaj hum gota lagayenge uss samundar mein jiska naam hai VALUE.
+      To chalo, shuruwaat se shuru karte hain… kuch apni baat, kuch aapki Baat karte hai..</p>
+
+      <p><strong>Jab aap chhote the…</strong><br>
+      Aapki value hoti thi.<br>
+      Why?<br>
+      Because aap chhote the.</p>
+
+      <p>
+      Chubby cheeks, chikna sa face 😆 jisko dekh ke koi resist hi nahi kar paata. I mean 😏 how can you?<br>
+      Aapki bholi si surat pe log pighal jaate. Agar aap lollipop hote, log aapko nigal jaate 😆
+      </p>
+
+      <p>Wah wah toh bolo 😂</p>
+
+      <p>
+      Thoda seriously serious hote hain…<br>
+      Aap the chikne. Damn sexy baby looks. And because of that… you had value.<br>
+      Because you were the only fresh maal in the room 😆 and people love fresh maal.
+      </p>
+
+      <p>
+      Aur agar aap meri tarah ladke ho — ohh ho ho… aunty, ladki, sab jhappi aur puppy dete the 😆 Life = jingalala.
+      </p>
+
+      <p><strong>Phir jaise-jaise aap bade hue…</strong><br>
+      School aaya.</p>
+
+      <p>
+      Agar aap drawing, painting ya sports mein ache the, toh uss field mein aapki izzat hoti thi.<br>
+      Log bolte: “Arey ye toh fadu drawing banata hai.” “Arey ye toh chess ka master hai.” “Arey ye scholar hai.” “Arey ye sports mein bahut acha hai.”<br>
+      You get the idea.
+      </p>
+
+      <p>
+      But…<br>
+      Agar aap chomu hote? Koi value nahi karta 😆 We’ve all faced that.
+      </p>
+
+      <p>
+      So in short — aapki value hai toh aap kuch ho 😱 is duniya mein… survival wise.<br>
+      Value nahi? Toh mom–dad ke alawa koi aapko puchhne bhi nahi aata. Exceptions hoti hain… but parents hamesha saath rehte hain — jab tak rehte hain.
+      </p>
+
+      <p><strong>Now my story</strong><br>
+      When I started my career as an accountant, I had no value.<br>
+      That room? I was nobody.</p>
+
+      <p>
+      Bas ek newbie — chair pe baitha, printouts nikalta, idhar-udhar files laata.<br>
+      That’s it.
+      </p>
+
+      <p>
+      Kabhi kabhi ek silly mistake pe bhi seniors aur bosses chillate the. Why? Because I had no value.
+      </p>
+
+      <p>
+      Ek baar maine client ka nil GST return file kar diya sirf isliye kyunki senior ne bola. Mujhe ghanta pata tha nil return hota kya hai 😆 Baad mein pata chala us period mein transactions thi.<br>
+      Par phir bhi gaali mujhe hi padi. Because again… no value.
+      </p>
+
+      <p><strong>I used to tell myself:</strong><br>
+      “It’s okay. I’m learning. I’m working on something. I’ll get it. I can do it 🙂”</p>
+
+      <p>
+      I kept grinding. Trying to make sense of that place. Trying to become useful. Trying to become someone with value.<br>
+      Aaj itni daant nahi padti. Still learning. Still pushing. Still giving my best every single day to earn that value.
+      </p>
+
+      <p>
+      As Virat Kohli said: If you give 110% every day of your life, you are answerable to no one.
+      </p>
+
+      <p><strong>So basicallyyyyy…</strong><br>
+      If you start working on yourself — congratulations 🥰 koi aapko valuable banne se nahi rok sakta.<br>
+      Bas ek shart hai — mehnat karni padegi.
+      </p>
+
+      <p>
+      Aur haan… sunne waalon ke liye main ye faltu talk show likhta rahunga 😂 because I like blabbering 🤣
+      </p>
+
+      <p>
+      I’ll see you again with another topic. Till then… hum hi rahenge pyaar ke. Phir milenge chalte chalte 😆
+      </p>
+
+      <p>
+      <strong>Arjun ❤️</strong> “Mujhe sirf bird ki aankh dikh rahi hai.” 😤
+      </p>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay">
+    <div class="panel">
+      <a href="index.html">Home</a>
+      <a href="stories.html">My Stories</a>
+      <a href="chapter1.html">Chapter 1</a>
+    </div>
+  </div>
+
+  <script>
+    const menuBtn = document.getElementById("menuBtn");
+    const overlay = document.getElementById("overlay");
+    menuBtn.addEventListener("click", () => overlay.classList.toggle("show"));
+    overlay.addEventListener("click", (e) => { if(e.target===overlay) overlay.classList.remove("show"); });
+  </script>
+</body>
+</html>
