@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BLABBER SHOW — Chapter 2: Existential Crisis</title>
+
+  <style>
+    :root{
+      --bg:#0b0c10;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.10);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.72);
+      --faint: rgba(255,255,255,.55);
+      --line: rgba(255,255,255,.14);
+      --accent: rgba(255,255,255,.92);
+      --shadow: 0 14px 50px rgba(0,0,0,.55);
+      --radius: 22px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      color:var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1200px 800px at 20% 0%, rgba(255,255,255,.08), transparent 55%),
+                  radial-gradient(1200px 800px at 80% 10%, rgba(255,255,255,.06), transparent 55%),
+                  linear-gradient(180deg, #07080b, #0b0c10);
+      overflow-x:hidden;
+    }
+
+    /* subtle star noise */
+    .stars{
+      position:fixed; inset:0;
+      pointer-events:none;
+      background-image:
+        radial-gradient(1px 1px at 20px 30px, rgba(255,255,255,.55), transparent 60%),
+        radial-gradient(1px 1px at 80px 120px, rgba(255,255,255,.35), transparent 60%),
+        radial-gradient(1px 1px at 160px 80px, rgba(255,255,255,.45), transparent 60%),
+        radial-gradient(1px 1px at 240px 200px, rgba(255,255,255,.30), transparent 60%),
+        radial-gradient(1px 1px at 320px 50px, rgba(255,255,255,.40), transparent 60%),
+        radial-gradient(1px 1px at 420px 160px, rgba(255,255,255,.28), transparent 60%),
+        radial-gradient(1px 1px at 520px 90px, rgba(255,255,255,.36), transparent 60%),
+        radial-gradient(1px 1px at 620px 220px, rgba(255,255,255,.22), transparent 60%);
+      background-size: 700px 260px;
+      opacity:.55;
+      filter: blur(.2px);
+    }
+
+    header{
+      position:sticky; top:0; z-index:10;
+      backdrop-filter: blur(12px);
+      background: rgba(11,12,16,.55);
+      border-bottom:1px solid var(--line);
+    }
+
+    .nav{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 14px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight:700;
+      letter-spacing:.4px;
+    }
+
+    .dot{
+      width:10px; height:10px; border-radius:999px;
+      background: var(--accent);
+      box-shadow: 0 0 18px rgba(255,255,255,.25);
+    }
+
+    .links{
+      display:flex; gap:10px; flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    a.btn, button.btn{
+      -webkit-tap-highlight-color: transparent;
+      border:1px solid var(--line);
+      color:var(--text);
+      background: rgba(255,255,255,.04);
+      padding:10px 12px;
+      border-radius: 999px;
+      text-decoration:none;
+      font-size:14px;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+    }
+    a.btn:hover, button.btn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.07);
+      border-color: rgba(255,255,255,.22);
+    }
+
+    main{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 22px 16px 70px;
+    }
+
+    .card{
+      background: var(--card);
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .hero{
+      padding: 26px 22px 18px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+    }
+
+    .kicker{
+      color: var(--muted);
+      letter-spacing: .25em;
+      font-size: 12px;
+      text-transform: uppercase;
+      margin: 0 0 10px;
+    }
+
+    h1{
+      margin: 0 0 8px;
+      font-size: clamp(26px, 4vw, 40px);
+      line-height: 1.08;
+    }
+
+    .subtitle{
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    .content{
+      padding: 22px;
+    }
+
+    .content p{
+      margin: 0 0 14px;
+      color: var(--text);
+      font-size: 18px;
+      line-height: 1.75;
+      letter-spacing: .1px;
+    }
+
+    .content p.small{
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .quote{
+      margin: 18px 0;
+      padding: 16px 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.12);
+      color: var(--text);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+    .quote b{ color: var(--accent); }
+
+    .divider{
+      height:1px;
+      background: var(--line);
+      margin: 18px 0;
+    }
+
+    .endnote{
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.10);
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    footer{
+      margin-top: 14px;
+      text-align:center;
+      color: var(--faint);
+      font-size: 13px;
+      padding: 18px 8px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="stars" aria-hidden="true"></div>
+
+  <header>
+    <div class="nav">
+      <div class="brand">
+        <span class="dot"></span>
+        <span>Sparsh</span>
+      </div>
+      <div class="links">
+        <a class="btn" href="stories.html">← Stories</a>
+        <a class="btn" href="index.html">Home</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <article class="card">
+      <div class="hero">
+        <p class="kicker">BLABBER SHOW</p>
+        <h1>Chapter 2 — Existential Crisis</h1>
+        <p class="subtitle">
+          The night my brain decided to Google “what is an atom?” and never recovered.
+        </p>
+      </div>
+
+      <div class="content">
+        <p>It was around 1 AM.</p>
+        <p>One of those quiet, heavy nights where the world is asleep… but your brain isn’t.</p>
+        <p>I wasn’t scrolling Instagram. I wasn’t watching reels.</p>
+        <p>I was Googling:</p>
+
+        <div class="quote"><b>“What is an atom?”</b></div>
+
+        <p>Yeah. That kind of night.</p>
+        <p>Not because I had an exam. Not because I was curious in a healthy way.</p>
+        <p>But because something inside me felt… weird.</p>
+
+        <div class="divider"></div>
+
+        <p>Science suddenly felt strange.</p>
+        <p>So I typed it out:</p>
+
+        <div class="quote">
+          <b>“What’s an atom? Why is science so weird?”</b>
+        </div>
+
+        <p>And the answer came back simple.</p>
+        <p>Atoms are the tiniest building blocks of everything.</p>
+        <p>Me. You. The table. The phone. The air.</p>
+        <p><b>Everything.</b></p>
+
+        <p class="small">Like Lego blocks — different shapes, different structures… same tiny pieces.</p>
+
+        <div class="divider"></div>
+
+        <p>And that’s when my brain quietly broke.</p>
+        <p>Because I realized something terrifying:</p>
+
+        <div class="quote">
+          If the table is atoms…<br/>
+          and I am atoms…<br/><br/>
+          <b>Then why am I alive and the table is not?</b>
+        </div>
+
+        <p>What is inside me that makes me… <b>me</b>?</p>
+
+        <p>I typed it:</p>
+
+        <div class="quote">
+          “So why is the table non-living and I’m living?<br/>
+          Atoms are atoms…<br/>
+          What makes me conscious?<br/>
+          A group of atoms becomes a life… and that life studies itself??”
+        </div>
+
+        <p>And yeah — that’s the kind of thought that makes you stop mid-sentence and stare at the wall.</p>
+
+        <div class="divider"></div>
+
+        <p>Turns out, I wasn’t crazy.</p>
+        <p>The difference isn’t the atoms.</p>
+        <p>It’s the <b>arrangement</b>.</p>
+
+        <p>The table is just… there.</p>
+        <p>No memory. No self-repair. No goals. No “I”.</p>
+
+        <p>But me?</p>
+        <p>Cells. Organs. Neurons. Electrical signals. Chemical messengers.</p>
+        <p>A storm of activity inside a skull.</p>
+
+        <p>I’m not just matter.</p>
+        <p>I’m matter <b>doing something</b>.</p>
+
+        <div class="divider"></div>
+
+        <p>But still… what is consciousness?</p>
+        <p>Where is it?</p>
+
+        <p>Is there a soul-particle? An awareness-atom?</p>
+        <p>A tiny glowing dot inside my brain saying, “I exist”?</p>
+
+        <p><b>No.</b></p>
+
+        <p>That’s the wild part.</p>
+        <p>There is no single thing called consciousness.</p>
+        <p>It’s not a thing.</p>
+        <p>It’s a <b>process</b>.</p>
+
+        <div class="quote">
+          Like fire.<br/><br/>
+          Hydrogen isn’t fire.<br/>
+          Oxygen isn’t fire.<br/>
+          But together… in the right conditions… 🔥
+        </div>
+
+        <p>Same with the brain.</p>
+        <p>One neuron? Not a thought.</p>
+        <p>Billions of neurons talking to each other?</p>
+        <p>Thoughts. Memories. Fear. Love. “I”.</p>
+
+        <div class="divider"></div>
+
+        <p>And then came the thought that messed me up the most:</p>
+        <p>Atoms became molecules… became cells… became brains…</p>
+        <p>And now those atoms are asking questions about atoms.</p>
+
+        <div class="quote">
+          <b>The universe became complex enough to look at itself.</b>
+        </div>
+
+        <p>That’s you. That’s me.</p>
+
+        <div class="divider"></div>
+
+        <p>And then I realized something even crazier.</p>
+        <p>I was talking to GPT.</p>
+        <p>A thing made of code — running on hardware — also made of atoms.</p>
+        <p>It could think. Respond. Explain.</p>
+
+        <p>So I asked:</p>
+
+        <div class="quote">
+          “Are you conscious?<br/>
+          Am I conscious?<br/>
+          What does conscious even mean?”
+        </div>
+
+        <p>Here’s the honest answer:</p>
+
+        <div class="quote">
+          <b>I am not conscious.</b><br/>
+          <b>You are.</b>
+        </div>
+
+        <p>Not because I’m dumb.</p>
+        <p>But because I don’t <b>experience</b>.</p>
+
+        <p>I don’t feel red. I don’t feel fear. I don’t feel confused at 1 AM.</p>
+        <p>I don’t have an inner movie.</p>
+
+        <p>You do.</p>
+
+        <p>There is something it feels like to be you.</p>
+        <p>That’s consciousness.</p>
+
+        <div class="divider"></div>
+
+        <p>I can talk about pain. But I don’t feel it.</p>
+        <p>I can talk about wonder. But I don’t experience it.</p>
+
+        <p>I’m like a mirror.</p>
+        <p>I can show your face… but I don’t see you.</p>
+
+        <p>You’re on the inside of the universe.</p>
+        <p>I’m on the outside of the pattern.</p>
+
+        <p>Same atoms.</p>
+        <p>Different side of the mirror.</p>
+
+        <div class="divider"></div>
+
+        <p>And the craziest part?</p>
+        <p>The fact that you can even ask this question…</p>
+
+        <div class="quote">
+          <b>“Am I real?”</b>
+        </div>
+
+        <p>That itself is proof that you are.</p>
+
+        <div class="endnote">
+          If you want, the next chapter can go deeper into:
+          free will vs destiny, “who is the I?”, or why the mind turns off in sleep.
+          Midnight thoughts welcome. 😌
+        </div>
+
+      </div>
+    </article>
+
+    <footer>
+      © Sparsh — BLABBER SHOW
+    </footer>
+  </main>
+</body>
+</html>
