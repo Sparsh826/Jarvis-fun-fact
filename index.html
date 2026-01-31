@@ -3,21 +3,24 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tony — Stories</title>
-  <meta name="description" content="Tony — minimalist space-themed story site." />
+  <title>Sparsh — Intro & BLABBER</title>
 
   <style>
     :root{
-      --bg:#000;
-      --fg:#fff;
+      --bg:#05070b;
+      --text:#ffffff;
       --muted:rgba(255,255,255,.72);
-      --muted2:rgba(255,255,255,.55);
-      --line:rgba(255,255,255,.12);
-      --glass:rgba(0,0,0,.55);
-      --glass2:rgba(0,0,0,.78);
-      --shadow: 0 24px 80px rgba(0,0,0,.65);
+      --card: rgba(10, 16, 26, .62);
+      --line: rgba(255,255,255,.10);
+
+      /* Jarvis-ish accents (subtle) */
+      --a1:#00e5ff;
+      --a2:#18ffb3;
+      --a3:#7c4dff;
+      --glow: 0 0 22px rgba(0,229,255,.25), 0 0 60px rgba(24,255,179,.10);
+
       --radius: 18px;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --shadow: 0 18px 60px rgba(0,0,0,.55);
       --sans: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
 
@@ -25,36 +28,34 @@
     html{ scroll-behavior:smooth; }
     body{
       margin:0;
-      color:var(--fg);
-      background:var(--bg);
       font-family: var(--sans);
+      color: var(--text);
+      background: var(--bg);
       overflow-x:hidden;
     }
 
-    /* === Starry Space Background === */
-    .space{
+    /* ===== Space background ===== */
+    .bg{
       position:fixed;
       inset:0;
       z-index:-3;
       background:
-        radial-gradient(1200px 700px at 10% 15%, rgba(255,255,255,.05), transparent 55%),
-        radial-gradient(900px 600px at 80% 25%, rgba(255,255,255,.035), transparent 60%),
-        radial-gradient(1000px 900px at 50% 120%, rgba(255,255,255,.03), transparent 60%),
-        #000;
+        radial-gradient(1200px 700px at 15% 18%, rgba(0,229,255,.10), transparent 55%),
+        radial-gradient(900px 600px at 80% 25%, rgba(124,77,255,.10), transparent 60%),
+        radial-gradient(900px 700px at 50% 110%, rgba(24,255,179,.08), transparent 55%),
+        linear-gradient(180deg, #03040a 0%, #05070b 40%, #04050a 100%);
     }
-    .stars, .stars2, .stars3{
+    .stars, .stars2{
       position:fixed;
       inset:-200px;
       z-index:-2;
       background-repeat: repeat;
-      background-size: 520px 520px;
-      opacity:.9;
-      filter: contrast(110%);
-      animation: drift 80s linear infinite;
       pointer-events:none;
+      animation: drift 90s linear infinite;
     }
-    /* 3 layers of stars */
     .stars{
+      opacity:.85;
+      background-size: 520px 520px;
       background-image:
         radial-gradient(1px 1px at 20px 30px, rgba(255,255,255,.9), transparent 40%),
         radial-gradient(1px 1px at 140px 180px, rgba(255,255,255,.75), transparent 40%),
@@ -64,470 +65,236 @@
         radial-gradient(1px 1px at 480px 250px, rgba(255,255,255,.85), transparent 40%);
     }
     .stars2{
-      background-size: 700px 700px;
-      opacity:.55;
-      animation-duration: 120s;
+      opacity:.45;
+      background-size: 760px 760px;
+      animation-duration: 140s;
       background-image:
-        radial-gradient(1px 1px at 90px 120px, rgba(255,255,255,.65), transparent 40%),
-        radial-gradient(1px 1px at 300px 500px, rgba(255,255,255,.55), transparent 40%),
-        radial-gradient(1px 1px at 610px 240px, rgba(255,255,255,.6), transparent 40%),
-        radial-gradient(1px 1px at 540px 620px, rgba(255,255,255,.5), transparent 40%);
+        radial-gradient(1px 1px at 90px 120px, rgba(255,255,255,.6), transparent 40%),
+        radial-gradient(1px 1px at 300px 500px, rgba(255,255,255,.5), transparent 40%),
+        radial-gradient(1px 1px at 610px 240px, rgba(255,255,255,.55), transparent 40%),
+        radial-gradient(1px 1px at 540px 620px, rgba(255,255,255,.45), transparent 40%);
       filter: blur(.2px);
     }
-    .stars3{
-      background-size: 900px 900px;
-      opacity:.35;
-      animation-duration: 180s;
-      background-image:
-        radial-gradient(2px 2px at 160px 240px, rgba(255,255,255,.35), transparent 55%),
-        radial-gradient(2px 2px at 620px 560px, rgba(255,255,255,.28), transparent 55%),
-        radial-gradient(2px 2px at 820px 180px, rgba(255,255,255,.3), transparent 55%);
-      filter: blur(.4px);
-    }
     @keyframes drift{
-      from { transform: translate3d(0,0,0); }
-      to   { transform: translate3d(-140px, 240px, 0); }
+      from{ transform: translate3d(0,0,0); }
+      to  { transform: translate3d(-140px, 240px, 0); }
     }
 
-    /* Subtle vignette */
-    .vignette{
-      position:fixed;
-      inset:0;
-      z-index:-1;
-      pointer-events:none;
-      background: radial-gradient(1200px 800px at 50% 20%, transparent 40%, rgba(0,0,0,.8) 100%);
-    }
-
-    /* === Layout === */
     .wrap{
-      width:min(980px, 92vw);
+      width:min(920px, 92vw);
       margin: 0 auto;
-      padding: 26px 0 60px;
+      padding: 26px 0 70px;
     }
 
-    header{
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: rgba(0,0,0,.55);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--line);
-    }
-    .nav{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding: 14px 0;
-    }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      text-decoration:none;
-      color:var(--fg);
-      font-weight:800;
-      letter-spacing:.3px;
-    }
-    .brand .dot{
-      width:10px; height:10px; border-radius:999px;
-      background:#fff;
-      box-shadow: 0 0 22px rgba(255,255,255,.35);
-    }
-    .links{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
-    .links a, .links button{
-      color:var(--muted);
-      text-decoration:none;
-      border:1px solid transparent;
-      background: transparent;
-      padding: 8px 10px;
-      border-radius: 12px;
-      font: 600 13px/1 var(--sans);
-      cursor:pointer;
-    }
-    .links a:hover, .links button:hover{
-      color:#fff;
-      border-color:var(--line);
-      background: rgba(255,255,255,.04);
-    }
-
-    .hero{
-      padding: 28px 0 12px;
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 14px;
-      align-items:stretch;
-    }
     .card{
-      border:1px solid var(--line);
-      border-radius: var(--radius);
-      background: rgba(0,0,0,.35);
-      backdrop-filter: blur(10px);
-      box-shadow: var(--shadow);
+      margin-top: 18px;
       padding: 18px;
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
     }
-    h1{
+
+    .accentLine{
+      height: 2px;
+      width: 100%;
+      margin: 14px 0 0;
+      background: linear-gradient(90deg, var(--a1), var(--a2), var(--a3));
+      border-radius: 999px;
+      opacity: .9;
+      box-shadow: var(--glow);
+    }
+
+    h1, h2{
       margin: 0 0 10px;
-      font-size: clamp(30px, 4vw, 46px);
       letter-spacing: .2px;
     }
-    .sub{
-      margin:0;
-      color:var(--muted);
-      line-height:1.7;
+    h1{ font-size: clamp(26px, 4vw, 38px); }
+    h2{ font-size: 18px; }
+
+    .text{
+      line-height: 1.9;
+      color: rgba(255,255,255,.92);
       font-size: 15px;
     }
-    .mono{
-      font-family: var(--mono);
-      letter-spacing:.2px;
-    }
-    .cta{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top: 14px;
-    }
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding: 11px 14px;
-      border-radius: 14px;
-      border: 1px solid var(--line);
-      color: #000;
-      background: #fff;
+    .text p{ margin: 0 0 14px; }
+    .text strong{ color:#fff; }
+
+    .link{
+      display:inline-block;
+      margin-top: 6px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,229,255,.25);
+      background: rgba(0,229,255,.08);
+      color:#fff;
       text-decoration:none;
-      font-weight: 800;
-      cursor:pointer;
+      font-weight:800;
+      box-shadow: 0 0 0 3px rgba(0,229,255,.06);
     }
-    .btn:hover{ filter: brightness(0.96); }
-    .btn.ghost{
-      background: transparent;
-      color: #fff;
-    }
-    .kicker{
-      margin-top: 12px;
-      color: var(--muted2);
-      font-size: 13px;
+    .link:hover{
+      border-color: rgba(24,255,179,.30);
+      background: rgba(24,255,179,.10);
+      box-shadow: var(--glow);
     }
 
-    section{
-      margin-top: 14px;
-    }
-    h2{
-      margin:0 0 10px;
-      font-size: 18px;
-      letter-spacing:.25px;
-    }
-    .divider{
+    .sep{
       height:1px;
       background: var(--line);
       margin: 14px 0;
     }
 
-    /* Story styling */
-    .story{
-      white-space: pre-wrap;
-      line-height: 1.9;
-      color: rgba(255,255,255,.9);
-      font-size: 15px;
-    }
-    .story h3{
-      margin: 16px 0 10px;
-      font-size: 16px;
-      letter-spacing:.2px;
-    }
-
-    /* === Modal / Popup === */
-    .modalOverlay{
-      position:fixed;
-      inset:0;
-      background: rgba(0,0,0,.62);
-      backdrop-filter: blur(8px);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding: 18px;
-      z-index: 999;
-    }
-    .modal{
-      width:min(720px, 96vw);
-      border:1px solid var(--line);
-      border-radius: 20px;
-      background: rgba(0,0,0,.82);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-      transform: translateY(6px);
-      animation: pop .18s ease-out both;
-    }
-    @keyframes pop{
-      from { opacity:0; transform: translateY(16px) scale(.98); }
-      to   { opacity:1; transform: translateY(0) scale(1); }
-    }
-    .modalHeader{
-      padding: 14px 16px;
-      border-bottom: 1px solid var(--line);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-    }
-    .modalHeader strong{
-      font-size: 13px;
-      letter-spacing: .35px;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.9);
-    }
-    .closeBtn{
-      border:1px solid var(--line);
-      background: transparent;
-      color: #fff;
-      padding: 8px 10px;
-      border-radius: 12px;
-      cursor:pointer;
-      font-weight:800;
-    }
-    .closeBtn:hover{ background: rgba(255,255,255,.06); }
-    .modalBody{
-      padding: 16px;
-      color: rgba(255,255,255,.88);
-      line-height: 1.85;
-      font-size: 15px;
-    }
-    .modalBody p{ margin: 0 0 12px; }
-    .modalFooter{
-      padding: 14px 16px;
-      border-top: 1px solid var(--line);
-      display:flex;
-      gap:10px;
-      justify-content:flex-end;
-      flex-wrap:wrap;
-      background: rgba(0,0,0,.6);
-    }
-
-    /* Small screens */
-    @media (max-width: 860px){
-      .hero{ grid-template-columns: 1fr; }
-    }
-
     footer{
-      margin-top: 18px;
-      padding-top: 18px;
-      border-top: 1px solid var(--line);
-      color: var(--muted2);
-      font-size: 13px;
+      margin-top: 22px;
       text-align:center;
+      color: rgba(255,255,255,.55);
+      font-size: 12px;
     }
   </style>
 </head>
 
 <body>
-  <!-- Background layers -->
-  <div class="space"></div>
+  <div class="bg"></div>
   <div class="stars"></div>
   <div class="stars2"></div>
-  <div class="stars3"></div>
-  <div class="vignette"></div>
 
-  <!-- Intro Modal -->
-  <div class="modalOverlay" id="modalOverlay" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <div class="modalHeader">
-        <strong id="modalTitle">Intro</strong>
-        <button class="closeBtn" id="closeModalBtn" type="button">Close ✕</button>
-      </div>
-      <div class="modalBody">
-        <p>Hello there.<br><strong>I'm Sparsh.</strong></p>
-        <p>
-          I’ve always had this strong urge to tell stories — even though, honestly, my writing skills are… well, not great.
-          But I’m trying. And that’s what matters.
-        </p>
-        <p>
-          If you’re reading this, it means you clicked a random link on the internet and somehow landed here —
-          on a website that’s actually live and visible to anyone in the world. Kinda wild, right?
-        </p>
-        <p>
-          I come from a commerce background, and I put this whole thing together overnight.
-          No rocket science, just curiosity and a little courage. Still, I’m proud I tried.
-        </p>
-        <p>
-          So yeah… I’ll be writing things here. Some might be messy. Some might be honest. Some might even be good.
-          I just hope someone out there enjoys them.
-        </p>
+  <main class="wrap">
+
+    <!-- INTRO -->
+    <section class="card" id="intro">
+      <h1>Intro</h1>
+      <div class="text">
+        <p>Hello there.<strong>I'm Sparsh.</strong></p>
+
+        <p>I’ve always had this strong urge to tell stories — even though, honestly, my writing skills are… well, not great. But I’m trying. And that’s what matters.</p>
+
+        <p>If you’re reading this, it means you clicked a random link on the internet and somehow landed here — on a website that’s actually live and visible to anyone in the world. Kinda wild, right?</p>
+
+        <p>I come from a commerce background, and I put this whole thing together overnight. No rocket science, just curiosity and a little courage. Still, I’m proud I tried.</p>
+
+        <p>So yeah… I’ll be writing things here. Some might be messy. Some might be honest. Some might even be good. I just hope someone out there enjoys them.</p>
+
         <p><strong>Let’s go.</strong></p>
-      </div>
-      <div class="modalFooter">
-        <a class="btn" href="#chapter1" id="goChapterBtn">BLABBER SHOW — Chapter 1 →</a>
-        <button class="btn ghost" id="stayBtn" type="button">Stay here</button>
-      </div>
-    </div>
-  </div>
 
-  <!-- Header -->
-  <header>
-    <div class="wrap nav">
-      <a class="brand" href="#top">
-        <span class="dot"></span>
-        <span class="mono">TONY</span>
-      </a>
-      <div class="links">
-        <a href="#chapter1">Chapter 1</a>
-        <button type="button" id="openIntroBtn">Open Intro</button>
+        <!-- hyperlink to your story on SAME page -->
+        <a class="link" href="#chapter1">BLABBER →</a>
       </div>
-    </div>
-  </header>
 
-  <!-- Main -->
-  <main class="wrap" id="top">
-    <div class="hero">
-      <div class="card">
-        <h1 class="mono">Tony</h1>
-        <p class="sub">
-          A minimalist little space on the internet — for stories, chaos, and random thoughts.
-          <span class="mono">(black & white only.)</span>
+      <div class="accentLine"></div>
+    </section>
+
+    <!-- CHAPTER 1 -->
+    <section class="card" id="chapter1">
+      <h2>BLABBER SHOW — Chapter 1</h2>
+      <div class="sep"></div>
+
+      <div class="text">
+        <p><strong>TALKIE SHOW</strong><br>
+        Where I blabber… and I splatter 😆 And honestly — samne wala kya soche, it doesn’t matter 😆😆<br>
+        Because here, I only blabber what I’ve actually experienced…</p>
+
+        <p><strong>EPISODE ONE — VALUE</strong><br>
+        Value… bole toh mulya. Par ye hota kya hai? 🤔 And honestly… how deep is this thing called value?<br>
+        Aaj hum gota lagayenge uss samundar mein jiska naam hai VALUE.<br>
+        To chalo, shuruwaat se shuru karte hain… kuch apni baat, kuch aapki Baat karte hai..</p>
+
+        <p><strong>Jab aap chhote the…</strong><br>
+        Aapki value hoti thi.<br>
+        Why?<br>
+        Because aap chhote the.</p>
+
+        <p>
+          Chubby cheeks, chikna sa face 😆 jisko dekh ke koi resist hi nahi kar paata. I mean 😏 how can you?<br>
+          Aapki bholi si surat pe log pighal jaate. Agar aap lollipop hote, log aapko nigal jaate 😆
         </p>
-        <div class="cta">
-          <a class="btn" href="#chapter1">Read Chapter 1</a>
-          <button class="btn ghost" type="button" id="openIntroBtn2">Show Intro Popup</button>
-        </div>
-        <div class="kicker">Tip: The intro popup appears on first load. You can reopen it anytime.</div>
-      </div>
 
-      <div class="card">
-        <h2 class="mono">Quick Links</h2>
-        <div class="divider"></div>
-        <p class="sub">
-          • <a href="#chapter1" style="color:#fff; text-decoration:underline;">BLABBER SHOW — Chapter 1</a><br>
-          • <button type="button" id="openIntroBtn3" style="all:unset; cursor:pointer; color:#fff; text-decoration:underline;">Intro popup</button>
+        <p>Wah wah toh bolo 😂</p>
+
+        <p>
+          Thoda seriously serious hote hain…<br>
+          Aap the chikne. Damn sexy baby looks. And because of that… you had value.<br>
+          Because you were the only fresh maal in the room 😆 and people love fresh maal.
         </p>
-        <div class="kicker">Hosted on the internet. Anyone can open this link 🌍</div>
-      </div>
-    </div>
 
-    <!-- Chapter 1 -->
-    <section id="chapter1">
-      <div class="card">
-        <h2 class="mono">BLABBER SHOW — Chapter 1</h2>
-        <div class="divider"></div>
+        <p>
+          Aur agar aap meri tarah ladke ho — ohh ho ho… aunty, ladki, sab jhappi aur puppy dete the 😆 Life = jingalala.
+        </p>
 
-        <div class="story">
-## TALKIE SHOW
-Where I blabber… and I splatter 😆 And honestly — samne wala kya soche, it doesn’t matter 😆😆
-Because here, I only blabber what I’ve actually experienced…
-## EPISODE ONE — VALUE
-Value… bole toh mulya. Par ye hota kya hai? 🤔 And honestly… how deep is this thing called value?
-Aaj hum gota lagayenge uss samundar mein jiska naam hai VALUE.
-To chalo, shuruwaat se shuru karte hain… kuch apni baat, kuch aapki Baat karte hai.. 
-Jab aap chhote the…
-Aapki value hoti thi.
-Why?
-Because aap chhote the.
-Chubby cheeks, chikna sa face 😆 jisko dekh ke koi resist hi nahi kar paata. I mean 😏 how can you?
-Aapki bholi si surat pe log pighal jaate. Agar aap lollipop hote, log aapko nigal jaate 😆
-Wah wah toh bolo 😂
-Thoda seriously serious hote hain…
-Aap the chikne. Damn sexy baby looks. And because of that… you had value.
-Because you were the only fresh maal in the room 😆 and people love fresh maal.
-Aur agar aap meri tarah ladke ho — ohh ho ho… aunty, ladki, sab jhappi aur puppy dete the 😆 Life = jingalala.
-Phir jaise-jaise aap bade hue…
-School aaya.
-Agar aap drawing, painting ya sports mein ache the, toh uss field mein aapki izzat hoti thi.
-Log bolte: “Arey ye toh fadu drawing banata hai.” “Arey ye toh chess ka master hai.” “Arey ye scholar hai.” “Arey ye sports mein bahut acha hai.”
-You get the idea.
-But…
-Agar aap chomu hote? Koi value nahi karta 😆 We’ve all faced that.
-So in short — aapki value hai toh aap kuch ho 😱 is duniya mein… survival wise.
-Value nahi? Toh mom–dad ke alawa koi aapko puchhne bhi nahi aata. Exceptions hoti hain… but parents hamesha saath rehte hain — jab tak rehte hain.
-Now my story
-When I started my career as an accountant, I had no value.
-That room? I was nobody.
-Bas ek newbie — chair pe baitha, printouts nikalta, idhar-udhar files laata.
-That’s it.
-Kabhi kabhi ek silly mistake pe bhi seniors aur bosses chillate the. Why? Because I had no value.
-Ek baar maine client ka nil GST return file kar diya sirf isliye kyunki senior ne bola. Mujhe ghanta pata tha nil return hota kya hai 😆 Baad mein pata chala us period mein transactions thi.
-Par phir bhi gaali mujhe hi padi. Because again… no value.
-I used to tell myself:
-“It’s okay. I’m learning. I’m working on something. I’ll get it. I can do it 🙂”
-I kept grinding. Trying to make sense of that place. Trying to become useful. Trying to become someone with value.
-Aaj itni daant nahi padti. Still learning. Still pushing. Still giving my best every single day to earn that value.
-As Virat Kohli said: If you give 110% every day of your life, you are answerable to no one.
-So basicallyyyyy…
-If you start working on yourself — congratulations 🥰 koi aapko valuable banne se nahi rok sakta.
-Bas ek shart hai — mehnat karni padegi.
-Aur haan… sunne waalon ke liye main ye faltu talk show likhta rahunga 😂 because I like blabbering 🤣
-I’ll see you again with another topic. Till then… hum hi rahenge pyaar ke. Phir milenge chalte chalte 😆
-And end mein, I’ll quote something which inspires me a lot:
-Arjun ❤️ “Mujhe sirf bird ki aankh dikh rahi hai.”
- 😤
-        </div>
+        <p><strong>Phir jaise-jaise aap bade hue…</strong><br>
+          School aaya.
+        </p>
+
+        <p>
+          Agar aap drawing, painting ya sports mein ache the, toh uss field mein aapki izzat hoti thi.<br>
+          Log bolte: “Arey ye toh fadu drawing banata hai.” “Arey ye toh chess ka master hai.” “Arey ye scholar hai.” “Arey ye sports mein bahut acha hai.”<br>
+          You get the idea.
+        </p>
+
+        <p>
+          But…<br>
+          Agar aap chomu hote? Koi value nahi karta 😆 We’ve all faced that.
+        </p>
+
+        <p>
+          So in short — aapki value hai toh aap kuch ho 😱 is duniya mein… survival wise.<br>
+          Value nahi? Toh mom–dad ke alawa koi aapko puchhne bhi nahi aata. Exceptions hoti hain… but parents hamesha saath rehte hain — jab tak rehte hain.
+        </p>
+
+        <p><strong>Now my story</strong><br>
+          When I started my career as an accountant, I had no value.<br>
+          That room? I was nobody.
+        </p>
+
+        <p>
+          Bas ek newbie — chair pe baitha, printouts nikalta, idhar-udhar files laata.<br>
+          That’s it.
+        </p>
+
+        <p>
+          Kabhi kabhi ek silly mistake pe bhi seniors aur bosses chillate the. Why? Because I had no value.
+        </p>
+
+        <p>
+          Ek baar maine client ka nil GST return file kar diya sirf isliye kyunki senior ne bola.
+          Mujhe ghanta pata tha nil return hota kya hai 😆 Baad mein pata chala us period mein transactions thi.<br>
+          Par phir bhi gaali mujhe hi padi. Because again… no value.
+        </p>
+
+        <p><strong>I used to tell myself:</strong><br>
+          “It’s okay. I’m learning. I’m working on something. I’ll get it. I can do it 🙂”
+        </p>
+
+        <p>
+          I kept grinding. Trying to make sense of that place. Trying to become useful. Trying to become someone with value.<br>
+          Aaj itni daant nahi padti. Still learning. Still pushing. Still giving my best every single day to earn that value.
+        </p>
+
+        <p>
+          As Virat Kohli said: If you give 110% every day of your life, you are answerable to no one.
+        </p>
+
+        <p><strong>So basicallyyyyy…</strong><br>
+          If you start working on yourself — congratulations 🥰 koi aapko valuable banne se nahi rok sakta.<br>
+          Bas ek shart hai — mehnat karni padegi.
+        </p>
+
+        <p>
+          Aur haan… sunne waalon ke liye main ye faltu talk show likhta rahunga 😂 because I like blabbering 🤣
+        </p>
+
+        <p>
+          I’ll see you again with another topic. Till then… hum hi rahenge pyaar ke. Phir milenge chalte chalte 😆
+        </p>
+
+        <p>
+          And end mein, I’ll quote something which inspires me a lot:<br>
+          <strong>Arjun ❤️</strong> “Mujhe sirf bird ki aankh dikh rahi hai.” 😤
+        </p>
       </div>
     </section>
 
-    <footer>
-      <span class="mono">TONY</span> • space background • minimalist • black & white
-    </footer>
+    <footer>✨</footer>
   </main>
-
-  <script>
-    const overlay = document.getElementById("modalOverlay");
-    const closeBtn = document.getElementById("closeModalBtn");
-    const openBtns = [
-      document.getElementById("openIntroBtn"),
-      document.getElementById("openIntroBtn2"),
-      document.getElementById("openIntroBtn3")
-    ].filter(Boolean);
-
-    const stayBtn = document.getElementById("stayBtn");
-    const goChapterBtn = document.getElementById("goChapterBtn");
-
-    function openModal(){
-      overlay.style.display = "flex";
-      overlay.setAttribute("aria-hidden", "false");
-      // prevent background scroll
-      document.body.style.overflow = "hidden";
-    }
-    function closeModal(){
-      overlay.style.display = "none";
-      overlay.setAttribute("aria-hidden", "true");
-      document.body.style.overflow = "";
-    }
-
-    // Close on overlay click (but not when clicking inside modal)
-    overlay.addEventListener("click", (e) => {
-      if (e.target === overlay) closeModal();
-    });
-
-    closeBtn.addEventListener("click", closeModal);
-    stayBtn.addEventListener("click", closeModal);
-
-    // When user clicks "go chapter", close modal then allow jump
-    goChapterBtn.addEventListener("click", () => {
-      closeModal();
-    });
-
-    // Open intro from buttons
-    openBtns.forEach(btn => btn.addEventListener("click", openModal));
-
-    // ESC closes modal
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && overlay.style.display === "flex") closeModal();
-    });
-
-    // Show intro once per browser (first visit)
-    const key = "tony_intro_seen_v1";
-    const hasSeen = localStorage.getItem(key);
-    if (!hasSeen){
-      // slight delay feels smoother
-      setTimeout(() => {
-        openModal();
-        localStorage.setItem(key, "yes");
-      }, 250);
-    }
-  </script>
 </body>
 </html>
