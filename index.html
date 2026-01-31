@@ -1,260 +1,196 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Sparsh</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sparsh</title>
+  <style>
+    :root{
+      --text:#fff;
+      --muted:rgba(255,255,255,.85);
+      --glass:rgba(0,0,0,.45);
+      --glass2:rgba(0,0,0,.65);
+      --line:rgba(255,255,255,.18);
+      --radius:18px;
+      --sans: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      color:var(--text);
+      overflow-x:hidden;
+    }
 
-<style>
-:root{
-  --bg:#ffffff;
-  --text:#111111;
-  --muted:#555;
-  --line:#e8e8e8;
-  --card:#fafafa;
-  --max: 900px;
-  --sans: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-}
+    /* Full background image */
+    .bg{
+      position:fixed;
+      inset:0;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.45)),
+        url("me.png");
+      background-size:cover;
+      background-position:center;
+      z-index:-2;
+    }
+    /* subtle grain vibe */
+    .grain{
+      position:fixed; inset:0; z-index:-1;
+      background-image:
+        radial-gradient(1px 1px at 20px 30px, rgba(255,255,255,.06), transparent 40%),
+        radial-gradient(1px 1px at 140px 180px, rgba(255,255,255,.05), transparent 40%),
+        radial-gradient(1px 1px at 320px 90px, rgba(255,255,255,.04), transparent 40%);
+      opacity:.35;
+      pointer-events:none;
+    }
 
-*{box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{
-  margin:0;
-  font-family:var(--sans);
-  background:var(--bg);
-  color:var(--text);
-  line-height:1.8;
-}
+    /* Top bar */
+    header{
+      position:fixed;
+      top:0; left:0; right:0;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:16px 18px;
+      z-index:50;
+    }
+    .brand{
+      font-weight:900;
+      letter-spacing:.4px;
+      font-size:18px;
+      text-shadow:0 10px 30px rgba(0,0,0,.55);
+    }
+    .menuBtn{
+      width:44px; height:44px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.35);
+      backdrop-filter: blur(8px);
+      color:#fff;
+      font-size:20px;
+      font-weight:900;
+      cursor:pointer;
+    }
 
-/* NAV */
-header{
-  position:sticky;
-  top:0;
-  background:#fff;
-  border-bottom:1px solid var(--line);
-  z-index:50;
-}
-.nav{
-  max-width:var(--max);
-  margin:auto;
-  padding:14px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-.brand{
-  font-weight:900;
-  text-decoration:none;
-  color:#111;
-}
-.menu a{
-  margin-left:16px;
-  text-decoration:none;
-  color:#555;
-  font-weight:700;
-}
-.menu a:hover{color:#111}
+    /* Center content */
+    .wrap{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:90px 16px 40px;
+    }
+    .card{
+      width:min(820px, 94vw);
+      background:var(--glass);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:22px 18px;
+      backdrop-filter: blur(10px);
+      box-shadow:0 22px 70px rgba(0,0,0,.55);
+    }
+    h1{
+      margin:0 0 10px;
+      font-size: clamp(28px, 5vw, 46px);
+      letter-spacing:.2px;
+    }
+    .intro p{
+      margin:0 0 12px;
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.85;
+    }
+    .intro strong{color:#fff}
+    .hint{
+      margin-top:12px;
+      font-size:13px;
+      color:rgba(255,255,255,.75);
+    }
 
-/* LAYOUT */
-main{max-width:var(--max); margin:auto; padding:40px 14px;}
-.hero{
-  display:grid;
-  grid-template-columns: 160px 1fr;
-  gap:24px;
-  align-items:center;
-}
-@media(max-width:700px){
-  .hero{grid-template-columns:1fr;}
-}
-.photo{
-  width:160px;
-  height:160px;
-  border-radius:12px;
-  object-fit:cover;
-  border:1px solid var(--line);
-}
-h1{margin:0;font-size:36px;}
-.lead{color:var(--muted);margin-top:6px;}
-
-.section{margin-top:50px;}
-.section h2{margin-bottom:16px;font-size:22px;}
-.card{
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:20px;
-}
-
-.btn{
-  display:inline-block;
-  margin-top:10px;
-  padding:10px 16px;
-  background:#111;
-  color:#fff;
-  text-decoration:none;
-  border-radius:8px;
-  font-weight:700;
-}
-
-footer{
-  margin-top:60px;
-  border-top:1px solid var(--line);
-  padding:20px 0;
-  text-align:center;
-  color:#777;
-  font-size:14px;
-}
-</style>
+    /* Menu overlay */
+    .overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.55);
+      display:none;
+      z-index:60;
+    }
+    .overlay.show{display:block;}
+    .panel{
+      position:absolute;
+      top:68px;
+      right:16px;
+      width:min(280px, 86vw);
+      background:var(--glass2);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:10px;
+      backdrop-filter: blur(12px);
+      box-shadow:0 18px 50px rgba(0,0,0,.6);
+    }
+    .panel a{
+      display:block;
+      padding:12px 12px;
+      border-radius:12px;
+      text-decoration:none;
+      color:#fff;
+      font-weight:800;
+    }
+    .panel a:hover{
+      background:rgba(255,255,255,.08);
+    }
+    .panel small{
+      display:block;
+      padding:4px 12px 10px;
+      color:rgba(255,255,255,.7);
+    }
+  </style>
 </head>
-
 <body>
+  <div class="bg"></div>
+  <div class="grain"></div>
 
-<header>
-  <div class="nav">
-    <a class="brand" href="#">Sparsh</a>
-    <div class="menu">
-      <a href="#intro">Intro</a>
-      <a href="#chapter1">Blabber</a>
+  <header>
+    <div class="brand">Sparsh</div>
+    <button class="menuBtn" id="menuBtn" aria-label="Menu">☰</button>
+  </header>
+
+  <div class="wrap">
+    <div class="card">
+      <h1>Hello there!</h1>
+
+      <div class="intro">
+        <p>Hello there.<strong>I'm Sparsh.</strong></p>
+        <p>I’ve always had this strong urge to tell stories — even though, honestly, my writing skills are… well, not great. But I’m trying. And that’s what matters.</p>
+        <p>If you’re reading this, it means you clicked a random link on the internet and somehow landed here — on a website that’s actually live and visible to anyone in the world. Kinda wild, right?</p>
+        <p>I come from a commerce background, and I put this whole thing together overnight. No rocket science, just curiosity and a little courage. Still, I’m proud I tried.</p>
+        <p>So yeah… I’ll be writing things here. Some might be messy. Some might be honest. Some might even be good. I just hope someone out there enjoys them.</p>
+        <p><strong>Let’s go.</strong></p>
+      </div>
+
+      <div class="hint">Tip: Tap ☰ → My Stories</div>
     </div>
   </div>
-</header>
 
-<main>
-
-<!-- HERO -->
-<div class="hero">
-  <img src="me.png" class="photo" alt="Sparsh">
-  <div>
-    <h1>Hello there!</h1>
-    <p class="lead">A personal space for stories, thoughts and blabbering.</p>
+  <!-- Overlay menu -->
+  <div class="overlay" id="overlay">
+    <div class="panel">
+      <small>Menu</small>
+      <a href="index.html">Home</a>
+      <a href="stories.html">My Stories</a>
+    </div>
   </div>
-</div>
 
-<!-- INTRO -->
-<div class="section" id="intro">
-  <h2>Intro</h2>
-  <div class="card">
-    <p>Hello there. <strong>I'm Sparsh.</strong></p>
-    <p>I’ve always had this strong urge to tell stories — even though, honestly, my writing skills are… well, not great. But I’m trying. And that’s what matters.</p>
-    <p>If you’re reading this, it means you clicked a random link on the internet and somehow landed here — on a website that’s actually live and visible to anyone in the world. Kinda wild, right?</p>
-    <p>I come from a commerce background, and I put this whole thing together overnight. No rocket science, just curiosity and a little courage. Still, I’m proud I tried.</p>
-    <p>So yeah… I’ll be writing things here. Some might be messy. Some might be honest. Some might even be good. I just hope someone out there enjoys them.</p>
-    <p><strong>Let’s go.</strong></p>
+  <script>
+    const menuBtn = document.getElementById("menuBtn");
+    const overlay = document.getElementById("overlay");
 
-    <a class="btn" href="#chapter1">BLABBER →</a>
-  </div>
-</div>
-
-<!-- CHAPTER 1 -->
-<div class="section" id="chapter1">
-  <h2>BLABBER SHOW — Chapter 1</h2>
-  <div class="card">
-
-<p><strong>TALKIE SHOW</strong><br>
-Where I blabber… and I splatter 😆 And honestly — samne wala kya soche, it doesn’t matter 😆😆  
-Because here, I only blabber what I’ve actually experienced…</p>
-
-<p><strong>EPISODE ONE — VALUE</strong><br>
-Value… bole toh mulya. Par ye hota kya hai? 🤔 And honestly… how deep is this thing called value?  
-Aaj hum gota lagayenge uss samundar mein jiska naam hai VALUE.  
-To chalo, shuruwaat se shuru karte hain… kuch apni baat, kuch aapki Baat karte hai..</p>
-
-<p><strong>Jab aap chhote the…</strong><br>
-Aapki value hoti thi.  
-Why?  
-Because aap chhote the.</p>
-
-<p>
-Chubby cheeks, chikna sa face 😆 jisko dekh ke koi resist hi nahi kar paata. I mean 😏 how can you?  
-Aapki bholi si surat pe log pighal jaate. Agar aap lollipop hote, log aapko nigal jaate 😆
-</p>
-
-<p>Wah wah toh bolo 😂</p>
-
-<p>
-Thoda seriously serious hote hain…  
-Aap the chikne. Damn sexy baby looks. And because of that… you had value.  
-Because you were the only fresh maal in the room 😆 and people love fresh maal.
-</p>
-
-<p>
-Aur agar aap meri tarah ladke ho — ohh ho ho… aunty, ladki, sab jhappi aur puppy dete the 😆 Life = jingalala.
-</p>
-
-<p><strong>Phir jaise-jaise aap bade hue…</strong><br>
-School aaya.</p>
-
-<p>
-Agar aap drawing, painting ya sports mein ache the, toh uss field mein aapki izzat hoti thi.  
-Log bolte: “Arey ye toh fadu drawing banata hai.” “Arey ye toh chess ka master hai.” “Arey ye scholar hai.” “Arey ye sports mein bahut acha hai.”  
-You get the idea.
-</p>
-
-<p>
-But…  
-Agar aap chomu hote? Koi value nahi karta 😆 We’ve all faced that.
-</p>
-
-<p>
-So in short — aapki value hai toh aap kuch ho 😱 is duniya mein… survival wise.  
-Value nahi? Toh mom–dad ke alawa koi aapko puchhne bhi nahi aata. Exceptions hoti hain… but parents hamesha saath rehte hain — jab tak rehte hain.
-</p>
-
-<p><strong>Now my story</strong><br>
-When I started my career as an accountant, I had no value.  
-That room? I was nobody.</p>
-
-<p>
-Bas ek newbie — chair pe baitha, printouts nikalta, idhar-udhar files laata.  
-That’s it.
-</p>
-
-<p>
-Kabhi kabhi ek silly mistake pe bhi seniors aur bosses chillate the. Why? Because I had no value.
-</p>
-
-<p>
-Ek baar maine client ka nil GST return file kar diya sirf isliye kyunki senior ne bola. Mujhe ghanta pata tha nil return hota kya hai 😆 Baad mein pata chala us period mein transactions thi.  
-Par phir bhi gaali mujhe hi padi. Because again… no value.
-</p>
-
-<p><strong>I used to tell myself:</strong><br>
-“It’s okay. I’m learning. I’m working on something. I’ll get it. I can do it 🙂”
-</p>
-
-<p>
-I kept grinding. Trying to make sense of that place. Trying to become useful. Trying to become someone with value.  
-Aaj itni daant nahi padti. Still learning. Still pushing. Still giving my best every single day to earn that value.
-</p>
-
-<p>
-As Virat Kohli said: If you give 110% every day of your life, you are answerable to no one.
-</p>
-
-<p><strong>So basicallyyyyy…</strong><br>
-If you start working on yourself — congratulations 🥰 koi aapko valuable banne se nahi rok sakta.  
-Bas ek shart hai — mehnat karni padegi.
-</p>
-
-<p>
-Aur haan… sunne waalon ke liye main ye faltu talk show likhta rahunga 😂 because I like blabbering 🤣
-</p>
-
-<p>
-I’ll see you again with another topic. Till then… hum hi rahenge pyaar ke. Phir milenge chalte chalte 😆
-</p>
-
-<p>
-<strong>Arjun ❤️</strong> “Mujhe sirf bird ki aankh dikh rahi hai.” 😤
-</p>
-
-  </div>
-</div>
-
-<footer>
-© Sparsh
-</footer>
-
-</main>
+    menuBtn.addEventListener("click", () => overlay.classList.toggle("show"));
+    overlay.addEventListener("click", (e) => {
+      // close when clicking outside the panel
+      if (e.target === overlay) overlay.classList.remove("show");
+    });
+  </script>
 </body>
 </html>
