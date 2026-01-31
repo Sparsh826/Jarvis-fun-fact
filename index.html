@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jarvis — Fun Facts</title>
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --card: rgba(255,255,255,0.06);
+      --line: rgba(255,255,255,0.10);
+      --text:#e9eefb;
+      --muted:#a8b3cf;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(900px 500px at 20% 10%, rgba(110,231,255,0.15), transparent 60%),
+        radial-gradient(900px 500px at 80% 20%, rgba(99,102,241,0.16), transparent 60%),
+        var(--bg);
+      color:var(--text);
+    }
+    .wrap{
+      width:min(900px, 92vw);
+      padding: 22px;
+    }
+    .card{
+      border:1px solid var(--line);
+      background: var(--card);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.45);
+      backdrop-filter: blur(10px);
+    }
+    .top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom: 14px;
+    }
+    .title{
+      display:flex;
+      gap:10px;
+      align-items:baseline;
+      flex-wrap:wrap;
+    }
+    h1{
+      margin:0;
+      font-size: clamp(28px, 4vw, 40px);
+      letter-spacing: 0.2px;
+    }
+    .tag{
+      font-size: 13px;
+      color: var(--muted);
+      border:1px solid var(--line);
+      padding: 6px 10px;
+      border-radius: 999px;
+    }
+    .fact{
+      font-size: clamp(18px, 2.2vw, 22px);
+      line-height: 1.55;
+      margin: 10px 0 0;
+    }
+    .meta{
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 13px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      border-top: 1px solid var(--line);
+      padding-top: 12px;
+    }
+    .btnRow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    button{
+      border:0;
+      cursor:pointer;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-weight: 700;
+      color: #06101a;
+      background: linear-gradient(135deg, rgba(110,231,255,0.95), rgba(99,102,241,0.95));
+      box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+    }
+    button:hover{ filter: brightness(1.04); }
+    button:active{ transform: translateY(1px); }
+
+    .ghost{
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--line);
+      box-shadow: none;
+      font-weight: 700;
+    }
+    .ghost:hover{ background: rgba(255,255,255,0.06); }
+    .tinyHint{
+      color: var(--muted);
+      font-size: 13px;
+      margin: 10px 2px 0;
+    }
+    .spark{
+      width:10px; height:10px;
+      display:inline-block;
+      border-radius: 999px;
+      background: rgba(110,231,255,0.9);
+      box-shadow: 0 0 22px rgba(110,231,255,0.55);
+      margin-right: 8px;
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="top">
+        <div class="title">
+          <h1>Jarvis</h1>
+          <span class="tag">Fun Facts Generator</span>
+        </div>
+
+        <div class="btnRow">
+          <button id="refreshBtn" type="button">Refresh Fact</button>
+          <button id="copyBtn" class="ghost" type="button">Copy</button>
+        </div>
+      </div>
+
+      <div class="fact" id="factText">Loading a fun fact…</div>
+      <div class="tinyHint"><span class="spark"></span>Tip: refresh the page (F5) for a new fact too.</div>
+
+      <div class="meta">
+        <div id="factCount">Fact: —</div>
+        <div id="timeStamp">—</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // A big list so it feels fresh for longer
+    const facts = [
+      "Honey never spoils. Archaeologists have found pots of honey in ancient tombs that were still edible.",
+      "Octopuses have three hearts and blue blood.",
+      "Bananas are berries, but strawberries aren’t (botanically speaking).",
+      "A day on Venus is longer than a year on Venus.",
+      "There are more possible chess games than atoms in the observable universe (by a lot).",
+      "Your brain uses about 20% of your body’s energy, even though it’s only ~2% of your body weight.",
+      "Wombat poop is cube-shaped. It helps stop it from rolling away.",
+      "Some turtles can breathe through their butts (cloacal respiration).",
+      "The Eiffel Tower can be about 15 cm taller in summer due to thermal expansion.",
+      "Sharks have been around longer than trees.",
+      "A group of flamingos is called a ‘flamboyance’.",
+      "The Moon is slowly drifting away from Earth (about 3.8 cm per year).",
+      "Cows have best friends and can get stressed when separated.",
+      "Sea otters hold hands while sleeping so they don’t drift apart.",
+      "Lightning is about 5× hotter than the surface of the Sun.",
+      "A ‘jiffy’ is an actual unit of time: 1/100th of a second (in some contexts).",
+      "There are more trees on Earth than stars in the Milky Way (best estimates suggest so).",
+      "Some frogs can freeze solid and thaw back to life.",
+      "The shortest war in history lasted about 38–45 minutes (Anglo-Zanzibar War, 1896).",
+      "You can hear a blue whale’s call from hundreds of kilometers away in the ocean.",
+      "The dot over the letter ‘i’ is called a tittle.",
+      "A teaspoon of neutron star material would weigh about a billion tons on Earth.",
+      "Scotland’s national animal is the unicorn.",
+      "The inventor of the frisbee was turned into a frisbee (his ashes were made into one).",
+      "An adult human has 206 bones, but babies have around 270 (many fuse as they grow).",
+      "The human nose can detect some odors at parts per trillion in certain cases.",
+      "Some cats are allergic to humans (rare, but real).",
+      "A bolt of lightning contains enough energy to toast about 100,000 slices of bread.",
+      "Pineapples take around 18–24 months to grow.",
+      "The longest English word without a vowel is ‘rhythms’.",
+      "Butterflies can taste with their feet.",
+      "The first oranges weren’t orange; they were green.",
+      "A cloud can weigh over a million pounds, yet it floats.",
+      "There’s a species of jellyfish that can revert to a younger stage (biologically ‘immortal’ in a sense).",
+      "If you shuffle a deck of cards well, it’s very likely the exact order has never existed before.",
+      "A snail can sleep for up to three years (in extreme conditions).",
+      "The ‘M’ in M&M’s stands for Mars and Murrie.",
+      "Humans glow in the dark—just too faint for our eyes to see.",
+      "Hot water can freeze faster than cold water sometimes (Mpemba effect).",
+      "Koalas have fingerprints extremely similar to humans."
+    ];
+
+    const factText = document.getElementById("factText");
+    const refreshBtn = document.getElementById("refreshBtn");
+    const copyBtn = document.getElementById("copyBtn");
+    const factCount = document.getElementById("factCount");
+    const timeStamp = document.getElementById("timeStamp");
+
+    // Pick a random fact, but avoid repeating the last one if possible
+    let lastIndex = -1;
+
+    function pickFact() {
+      if (facts.length === 1) return 0;
+      let idx = Math.floor(Math.random() * facts.length);
+      if (idx === lastIndex) {
+        idx = (idx + 1 + Math.floor(Math.random() * (facts.length - 1))) % facts.length;
+      }
+      lastIndex = idx;
+      return idx;
+    }
+
+    function renderFact() {
+      const idx = pickFact();
+      factText.textContent = facts[idx];
+      factCount.textContent = `Fact: ${idx + 1} / ${facts.length}`;
+      timeStamp.textContent = new Date().toLocaleString();
+    }
+
+    refreshBtn.addEventListener("click", renderFact);
+
+    copyBtn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(factText.textContent);
+        const old = copyBtn.textContent;
+        copyBtn.textContent = "Copied ✅";
+        setTimeout(() => (copyBtn.textContent = old), 900);
+      } catch {
+        alert("Copy failed. You can manually select and copy the text.");
+      }
+    });
+
+    // Show a fact on first load (and every page refresh automatically)
+    renderFact();
+  </script>
+</body>
+</html>
